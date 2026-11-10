@@ -1,4 +1,4 @@
-# 📈 Pro Trading Chart
+# 📈 Ticker Pen Chart
 
 > A high-performance, TradingView-grade financial charting suite built with TypeScript, React, and HTML5 Canvas. Featuring **17 multi-chart grid layouts**, **48+ drawing & technical analysis tools**, **30+ indicators**, **dual-mode market datafeeds**, **universal webhook ingestion API**, and **interactive order & position management with drag-and-drop TP/SL brackets**.
 
