@@ -1,0 +1,2012 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+/* Hide native number input stepper spinners */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+:root {
+  --bg-main: #06090f;
+  --bg-surface: rgba(15, 22, 38, 0.7);
+  --bg-card: #1f212a;
+  --bg-input: #101626;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(124, 77, 255, 0.2);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --color-primary: #7c4dff;       /* Glowing Neon Violet */
+  --color-primary-glow: rgba(124, 77, 255, 0.4);
+  --color-secondary: #00e5ff;     /* Neon Cyan */
+  --color-secondary-glow: rgba(0, 229, 255, 0.4);
+  
+  --color-up: #089981;            /* Curated Jade Green */
+  --color-up-glow: rgba(8, 153, 129, 0.25);
+  --color-down: #f23645;          /* Curated Coral Red */
+  --color-down-glow: rgba(242, 54, 69, 0.25);
+  --color-warn: #ffab00;          /* Electric Amber */
+
+  --font-sans: 'Rubik', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-glow: 0 0 20px rgba(124, 77, 255, 0.15);
+}
+
+/* Reset & Basics */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(124, 77, 255, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 229, 255, 0.05) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Cursor modes for chart canvas */
+body.hide-native-chart-cursor .ticker-pen-pro canvas,
+body.hide-native-chart-cursor [class*="ticker-pen"] canvas,
+body.hide-native-chart-cursor [class*="k-line-chart"] canvas {
+  cursor: none !important;
+}
+
+body.arrow-cursor-mode .ticker-pen-pro canvas,
+body.arrow-cursor-mode [class*="ticker-pen"] canvas,
+body.arrow-cursor-mode [class*="k-line-chart"] canvas {
+  cursor: default !important;
+}
+
+/* Ensure all UI controls, toolbars, sidebars, settings modals, and buttons ALWAYS show standard cursors */
+.custom-side-tool-panel,
+.custom-side-tool-panel *,
+.ticker-pen-pro-period-bar,
+.ticker-pen-pro-period-bar *,
+.custom-tool-popover-menu,
+.custom-tool-popover-menu *,
+[class*="modal"],
+[class*="modal"] *,
+[class*="dialog"],
+[class*="dialog"] *,
+[class*="popover"],
+[class*="popover"] *,
+[class*="dropdown"],
+[class*="dropdown"] *,
+[class*="toolbar"],
+[class*="toolbar"] *,
+[class*="floating"],
+[class*="floating"] *,
+[class*="settings"],
+[class*="settings"] *,
+button,
+button *,
+[role="button"],
+[role="button"] *,
+input,
+select,
+textarea,
+a {
+  cursor: revert;
+}
+
+button,
+[role="button"],
+.custom-side-tool-panel button,
+.custom-side-tool-panel [role="button"],
+.ticker-pen-pro-period-bar .item,
+.ticker-pen-pro-period-bar .tools,
+.custom-tool-popover-menu button,
+.custom-tool-popover-menu [role="button"] {
+  cursor: pointer !important;
+}
+
+input,
+textarea {
+  cursor: text !important;
+}
+
+/* Scrollbar Customization */
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar,
+ul::-webkit-scrollbar,
+ol::-webkit-scrollbar,
+nav::-webkit-scrollbar,
+section::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
+}
+
+*::-webkit-scrollbar-button,
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+div::-webkit-scrollbar-button,
+ul::-webkit-scrollbar-button,
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:vertical:decrement,
+::-webkit-scrollbar-button:vertical:increment,
+::-webkit-scrollbar-button:horizontal:decrement,
+::-webkit-scrollbar-button:horizontal:increment,
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment,
+::-webkit-scrollbar-button:start:increment,
+::-webkit-scrollbar-button:end:decrement {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  border: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+*::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover {
+  background: rgba(41, 98, 255, 0.8) !important;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+
+
+/* Typography & Badges */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-up {
+  background: rgba(8, 153, 129, 0.12);
+  color: var(--color-up);
+  border: 1px solid rgba(8, 153, 129, 0.2);
+}
+
+.badge-down {
+  background: rgba(242, 54, 69, 0.12);
+  color: var(--color-down);
+  border: 1px solid rgba(242, 54, 69, 0.2);
+}
+
+.badge-neutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--text-secondary);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Interactive Components */
+.input-field {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  outline: none;
+  font-family: var(--font-sans);
+  transition: var(--transition-smooth);
+  width: 100%;
+}
+
+.input-field:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(124, 77, 255, 0.15);
+}
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), #651fff);
+  color: white;
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(124, 77, 255, 0.35);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--text-secondary);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+/* Global Light Mode Variables Override */
+body.theme-light {
+  background-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.02) 0px, transparent 50%) !important;
+  
+  --bg-main: #cbd5e1;
+  --bg-surface: #e2e8f0;
+  --bg-card: #f1f5f9;
+  --bg-input: #ffffff;
+  
+  --border-color: rgba(15, 23, 42, 0.12);
+  --border-glow: rgba(79, 70, 229, 0.05);
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --color-primary: #4f46e5;
+  --color-primary-glow: rgba(79, 70, 229, 0.1);
+  --color-secondary: #0284c7;
+  --color-secondary-glow: rgba(2, 132, 199, 0.1);
+}
+
+
+
+body.theme-light select.input-field,
+body.theme-light input.input-field,
+body.theme-light textarea.input-field {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.theme-light select,
+body.theme-light input {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+body.theme-light select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+body.theme-light .custom-table td, 
+body.theme-light .table td {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04) !important;
+  color: #334155 !important;
+}
+
+body.theme-light .custom-table th, 
+body.theme-light .table th {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: #475569 !important;
+}
+
+body.theme-light .custom-table tr:hover, 
+body.theme-light .table tr:hover {
+  background: rgba(15, 23, 42, 0.015) !important;
+}
+
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4 {
+  color: #0f172a !important;
+}
+
+body.theme-light span,
+body.theme-light label,
+body.theme-light p {
+  color: #334155 !important;
+}
+
+body.theme-light .text-muted,
+body.theme-light p[style*="color"],
+body.theme-light span[style*="color: #94a3b8"],
+body.theme-light span[style*="color:#94a3b8"],
+body.theme-light p[style*="color: #94a3b8"],
+body.theme-light p[style*="color:#94a3b8"],
+body.theme-light label[style*="color: #94a3b8"],
+body.theme-light label[style*="color:#94a3b8"],
+body.theme-light div[style*="color: #94a3b8"],
+body.theme-light div[style*="color:#94a3b8"],
+body.theme-light span[style*="color: #64748b"],
+body.theme-light span[style*="color:#64748b"],
+body.theme-light p[style*="color: #64748b"],
+body.theme-light p[style*="color:#64748b"],
+body.theme-light label[style*="color: #64748b"],
+body.theme-light label[style*="color:#64748b"],
+body.theme-light div[style*="color: #64748b"],
+body.theme-light div[style*="color:#64748b"] {
+  color: #475569 !important;
+}
+
+body.theme-light p[style*="color: #ffd600"],
+body.theme-light p[style*="color:#ffd600"] {
+  color: #b45309 !important;
+}
+
+body.theme-light div[style*="background: rgba(255, 171, 0, 0.05)"],
+body.theme-light div[style*="background:rgba(255, 171, 0, 0.05)"] {
+  background: rgba(251, 191, 36, 0.12) !important;
+  border-color: rgba(251, 191, 36, 0.3) !important;
+}
+
+/* AI Assistant panel specific overrides for light theme */
+body.theme-light .chat-messages {
+  background: #f8fafc !important;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+body.theme-light .chat-message.assistant {
+  background: rgba(79, 70, 229, 0.06) !important;
+  border: 1px solid rgba(79, 70, 229, 0.12) !important;
+}
+
+body.theme-light .chat-message.user {
+  background: rgba(2, 132, 199, 0.06) !important;
+  border: 1px solid rgba(2, 132, 199, 0.12) !important;
+}
+
+body.theme-light .chat-message p,
+body.theme-light .chat-message li {
+  color: #0f172a !important;
+}
+
+body.theme-light .chat-message strong {
+  color: #4f46e5 !important;
+}
+
+body.theme-light .chat-message h4 {
+  color: #4f46e5 !important;
+}
+
+/* Light mode secondary buttons styling */
+body.theme-light .btn-secondary {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(15, 23, 42, 0.15) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.theme-light .btn-secondary:hover {
+  background: #f1f5f9 !important;
+  border-color: rgba(15, 23, 42, 0.25) !important;
+}
+
+/* Light mode sidebar navigation links active and hover overrides */
+body.theme-light .sidebar-light .nav-item.active,
+body.theme-light .sidebar-light .nav-item:hover {
+  color: #4f46e5 !important;
+  background: rgba(79, 70, 229, 0.08) !important;
+  border-left: 3px solid #4f46e5 !important;
+}
+
+body.theme-light .sidebar-light .nav-item.active svg,
+body.theme-light .sidebar-light .nav-item:hover svg {
+  color: #4f46e5 !important;
+}
+
+/* Light mode database logs override */
+body.theme-light span[style*="color: #a7f3d0"],
+body.theme-light span[style*="color:#a7f3d0"] {
+  color: #0f766e !important;
+}
+
+/* Light mode primary buttons inner text/icon contrast override */
+body.theme-light .btn-primary span,
+body.theme-light .btn-primary svg {
+  color: #ffffff !important;
+}
+
+body.theme-light .btn-secondary span {
+  color: #0f172a !important;
+}
+
+/* ===== Trading Mode Toggle Switch ===== */
+.trading-mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(124, 77, 255, 0.06);
+  border: 1px solid rgba(124, 77, 255, 0.15);
+  margin-bottom: 1rem;
+}
+
+.trading-mode-toggle .mode-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+  user-select: none;
+}
+
+.trading-mode-toggle .mode-label.active-paper {
+  color: #089981;
+}
+
+.trading-mode-toggle .mode-label.active-live {
+  color: #f23645;
+}
+
+.trading-mode-toggle .mode-label.inactive {
+  color: var(--text-muted);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #089981;
+  transition: var(--transition-smooth);
+  box-shadow: 0 0 12px rgba(8, 153, 129, 0.3);
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  top: 3px;
+  left: 3px;
+  transition: var(--transition-smooth);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: #f23645;
+  box-shadow: 0 0 12px rgba(242, 54, 69, 0.35);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(28px);
+}
+
+.live-mode-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(242, 54, 69, 0.08);
+  border: 1px solid rgba(242, 54, 69, 0.25);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: #f23645;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: rgba(242, 54, 69, 0.25); }
+  50% { border-color: rgba(242, 54, 69, 0.5); }
+}
+
+.paper-mode-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(8, 153, 129, 0.08);
+  border: 1px solid rgba(8, 153, 129, 0.2);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: #089981;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+/* Light theme overrides for toggle */
+body.theme-light .trading-mode-toggle {
+  background: rgba(79, 70, 229, 0.04);
+  border-color: rgba(79, 70, 229, 0.12);
+}
+
+body.theme-light .trading-mode-toggle .mode-label.inactive {
+  color: #94a3b8;
+}
+
+body.theme-light .live-mode-warning {
+  background: rgba(242, 54, 69, 0.05);
+  color: #dc2626;
+}
+
+body.theme-light .paper-mode-badge {
+  background: rgba(8, 153, 129, 0.05);
+  color: #059669;
+}
+
+/* ===== Layout Grids ===== */
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .grid-12, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Ticker Pen Pro Layout & Scroll overrides ── */
+.ticker-pen-pro {
+  height: 100% !important;
+  background-color: transparent !important;
+}
+
+/* Dark theme CSS custom properties for reparented toolbars (period bar, drawing bar) */
+.layout-container.ticker-pen-pro {
+  --ticker-pen-pro-primary-color: #1677ff;
+  --ticker-pen-pro-hover-background-color: rgba(22, 119, 255, .15);
+  --ticker-pen-pro-background-color: #151517;
+  --ticker-pen-pro-popover-background-color: #1c1c1f;
+  --ticker-pen-pro-text-color: #f8f8f8;
+  --ticker-pen-pro-text-second-color: #929AA5;
+  --ticker-pen-pro-border-color: #292929;
+  --ticker-pen-pro-selected-color: rgba(22, 119, 255, .15);
+  color: #f8f8f8;
+  fill: #f8f8f8;
+}
+
+/* Make period bar elements overflow visible so dropdown lists can show fully */
+.ticker-pen-pro-period-bar {
+  overflow: visible !important;
+  white-space: nowrap !important;
+  scrollbar-width: none; /* Firefox */
+}
+.ticker-pen-pro-period-bar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+.ticker-pen-pro-period-bar .menu-con {
+  overflow: visible !important;
+}
+
+/* Ensure period bar items and symbols are visible with proper colors */
+.ticker-pen-pro-period-bar .symbol {
+  color: #f8f8f8 !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  transition: background-color 0.15s ease !important;
+}
+.ticker-pen-pro-period-bar .symbol:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+.ticker-pen-pro-period-bar .custom-top-settings-btn {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+.ticker-pen-pro-period-bar .custom-theme-container {
+  margin-left: 0px !important;
+  margin-right: 2px !important;
+  padding: 0px !important;
+}
+.ticker-pen-pro-period-bar .item {
+  color: #d1d4dc !important;
+  fill: #d1d4dc !important;
+}
+.ticker-pen-pro-period-bar .item:hover {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.ticker-pen-pro-period-bar .item.selected {
+  color: #2962ff !important;
+  fill: #2962ff !important;
+}
+.ticker-pen-pro-period-bar .period {
+  color: #d1d4dc !important;
+}
+.ticker-pen-pro-period-bar .period.selected {
+  color: #2962ff !important;
+  background-color: rgba(41, 98, 255, .15) !important;
+}
+.ticker-pen-pro-period-bar .tools svg {
+  fill: #d1d4dc !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+.ticker-pen-pro-period-bar .tools:hover svg {
+  fill: #2962ff !important;
+}
+.ticker-pen-pro-period-bar .menu-container svg {
+  fill: #d1d4dc !important;
+}
+.ticker-pen-pro-period-bar .menu-container svg:hover {
+  fill: #ffffff !important;
+}
+
+/* Ensure drawing bar items are visible */
+.ticker-pen-pro-drawing-bar .item {
+  color: #929AA5 !important;
+  fill: #929AA5 !important;
+  stroke: #929AA5 !important;
+}
+.ticker-pen-pro-drawing-bar .item:hover {
+  color: #f8f8f8 !important;
+  fill: #f8f8f8 !important;
+  stroke: #f8f8f8 !important;
+}
+.ticker-pen-pro-drawing-bar .item .icon-overlay.selected {
+  fill: #1677ff !important;
+  stroke: #1677ff !important;
+  background-color: rgba(22, 119, 255, .15) !important;
+}
+.ticker-pen-pro-drawing-bar .split-line {
+  background-color: #292929 !important;
+}
+
+/* Hide toolbar text names by default (only show icons) in normal mode */
+.ticker-pen-pro-period-bar .tools span {
+  display: none !important;
+}
+
+/* Show toolbar text names only when the chart container is in fullscreen mode */
+.ticker-pen-pro:fullscreen .ticker-pen-pro-period-bar .tools span {
+  display: inline-block !important;
+}
+.ticker-pen-pro:-webkit-full-screen .ticker-pen-pro-period-bar .tools span {
+  display: inline-block !important;
+}
+.ticker-pen-pro:-moz-full-screen .ticker-pen-pro-period-bar .tools span {
+  display: inline-block !important;
+}
+.ticker-pen-pro:-ms-fullscreen .ticker-pen-pro-period-bar .tools span {
+  display: inline-block !important;
+}
+
+/* Hide custom timeframe dropdown label by default (only show chevron SVG) in normal mode */
+.custom-timeframes-btn .label {
+  display: none !important;
+}
+
+/* Show custom timeframe dropdown label when the chart container is in fullscreen mode */
+.ticker-pen-pro:fullscreen .custom-timeframes-btn .label {
+  display: inline-block !important;
+}
+.ticker-pen-pro:-webkit-full-screen .custom-timeframes-btn .label {
+  display: inline-block !important;
+}
+.ticker-pen-pro:-moz-full-screen .custom-timeframes-btn .label {
+  display: inline-block !important;
+}
+.ticker-pen-pro:-ms-fullscreen .custom-timeframes-btn .label {
+  display: inline-block !important;
+}
+
+/* Force layout button label text to display alongside its icon in normal mode */
+.ticker-pen-pro-period-bar .custom-layouts-btn .label {
+  display: inline-block !important;
+}
+
+/* ── Global Unified Layout Overrides ── */
+.ticker-pen-pro-period-bar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 38px !important;
+  z-index: 100000 !important;
+  background-color: #000000 !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.custom-side-tool-panel {
+  border: none !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 0 !important;
+  box-sizing: border-box !important;
+  background-color: #000000 !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.custom-side-tool-panel::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   LIGHT THEME OVERRIDES (Top Panel & Side Tool Panel ONLY)
+   Does NOT affect: Chart canvas, candles, indicators, or the
+   chart drawing drag bar (.custom-drawing-drag-toolbar)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── TOP PERIOD BAR ── */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar {
+  background-color: #f8f9fd !important;
+  border-bottom: 1px solid #e0e3eb !important;
+}
+
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .symbol {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .symbol:hover {
+  background-color: #ebedf2 !important;
+}
+
+/* All text/icons in top bar → dark */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .item,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .period,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar button,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .label,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar span:not(.custom-layers-count-badge) {
+  color: #131722 !important;
+  fill: #131722 !important;
+}
+
+/* SVGs in top bar → inherit dark color (skip accent-colored ones) */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar svg {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar svg[stroke="#2962ff"],
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar svg[stroke="#2979ff"] {
+  color: #2962ff !important;
+}
+
+/* Hover on top bar items */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .item:hover,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .period:hover,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar button:hover {
+  color: #000000 !important;
+  fill: #000000 !important;
+  background-color: #ebedf2 !important;
+}
+
+/* Selected/active period button in top bar -> black color with distinct background */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .item.selected,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .period.selected,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .item.period.selected,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .item[data-selected="true"],
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .period[data-selected="true"] {
+  color: #000000 !important;
+  fill: #000000 !important;
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  font-weight: 700 !important;
+}
+
+/* Dividers in top bar */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .custom-topbar-divider {
+  background-color: #e0e3eb !important;
+}
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar div[style*="rgba(255, 255, 255, 0.08)"] {
+  background-color: #e0e3eb !important;
+}
+
+
+/* ── SIDE TOOL PANEL ── */
+[data-chrome-theme="light"] .custom-side-tool-panel {
+  background-color: #f8f9fd !important;
+  border-right: 1px solid #e0e3eb !important;
+}
+
+/* All sidebar buttons → dark crisp icons (exclude floating dragbars) */
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button) {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button) svg,
+[data-chrome-theme="light"] .custom-side-tool-panel > div svg:not(.custom-favorites-floating-toolbar svg):not(.custom-drawing-drag-toolbar svg) {
+  color: #131722 !important;
+}
+
+/* Sidebar button hover → darker (exclude floating dragbars) */
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button):hover {
+  color: #000000 !important;
+  background-color: #ebedf2 !important;
+}
+
+/* Active tool button → blue accent */
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button)[style*="rgba(41, 98, 255"],
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button)[style*="rgba(41,98,255"] {
+  color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.12) !important;
+}
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button)[style*="rgba(41, 98, 255"] svg,
+[data-chrome-theme="light"] .custom-side-tool-panel button:not(.custom-favorites-floating-toolbar button):not(.custom-drawing-drag-toolbar button)[style*="rgba(41,98,255"] svg {
+  color: #2962ff !important;
+}
+
+/* ── FAVORITES & DRAWING DRAGBARS (Preserve native dark colors, never black icons) ── */
+.custom-favorites-floating-toolbar,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar {
+  background-color: #1e222d !important;
+  border: 1px solid #2a2e39 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65) !important;
+  color: #d1d4dc !important;
+}
+
+.custom-favorites-floating-toolbar button,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button {
+  color: #787b86 !important;
+  background-color: transparent !important;
+}
+
+.custom-favorites-floating-toolbar button svg,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button svg {
+  color: #787b86 !important;
+}
+
+.custom-favorites-floating-toolbar button:hover,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.custom-favorites-floating-toolbar button:hover svg,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button:hover svg {
+  color: #ffffff !important;
+}
+
+.custom-favorites-floating-toolbar button[style*="rgba(41, 98, 255"],
+.custom-favorites-floating-toolbar button[style*="rgba(41,98,255"],
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button[style*="rgba(41, 98, 255"],
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button[style*="rgba(41,98,255"] {
+  color: #2979ff !important;
+  background-color: rgba(41, 98, 255, 0.18) !important;
+}
+
+.custom-favorites-floating-toolbar button[style*="rgba(41, 98, 255"] svg,
+.custom-favorites-floating-toolbar button[style*="rgba(41,98,255"] svg,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button[style*="rgba(41, 98, 255"] svg,
+[data-chrome-theme="light"] .custom-favorites-floating-toolbar button[style*="rgba(41,98,255"] svg {
+  color: #2979ff !important;
+}
+
+/* Sidebar divider lines */
+[data-chrome-theme="light"] .custom-side-tool-panel div[style*="rgba(255, 255, 255, 0.06)"],
+[data-chrome-theme="light"] .custom-side-tool-panel div[style*="rgba(255, 255, 255, 0.08)"] {
+  background-color: #e0e3eb !important;
+}
+
+/* Arrow disclosure tabs */
+[data-chrome-theme="light"] .custom-side-tool-panel button[style*="#1f222e"],
+[data-chrome-theme="light"] .custom-side-tool-panel button[style*="#2a2e39"] {
+  background-color: #ebedf2 !important;
+  border-color: #e0e3eb !important;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.06) !important;
+}
+
+
+/* ── ALL POPOVERS, DROPDOWNS, MENUS (excluding chart drag bar) ── */
+[data-chrome-theme="light"] .custom-tool-popover-menu,
+[data-chrome-theme="light"] .custom-timeframe-dropdown-menu,
+[data-chrome-theme="light"] .custom-charttype-dropdown-menu,
+[data-chrome-theme="light"] .custom-theme-dropdown-menu,
+[data-chrome-theme="light"] .custom-indicators-popover-menu,
+[data-chrome-theme="light"] .custom-fav-indicators-popover-menu,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu,
+[data-chrome-theme="light"] .custom-layers-dropdown-menu,
+[data-chrome-theme="light"] .custom-layouts-dropdown,
+[data-chrome-theme="light"] .custom-emoji-picker-container,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .list {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e3eb !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10) !important;
+  color: #131722 !important;
+}
+
+/* All text inside these menus → dark */
+[data-chrome-theme="light"] .custom-tool-popover-menu *,
+[data-chrome-theme="light"] .custom-timeframe-dropdown-menu *,
+[data-chrome-theme="light"] .custom-charttype-dropdown-menu *,
+[data-chrome-theme="light"] .custom-theme-dropdown-menu *,
+[data-chrome-theme="light"] .custom-indicators-popover-menu *,
+[data-chrome-theme="light"] .custom-fav-indicators-popover-menu *,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu *,
+[data-chrome-theme="light"] .custom-layouts-dropdown * {
+  color: #131722 !important;
+}
+
+/* SVGs inside menus → dark */
+[data-chrome-theme="light"] .custom-tool-popover-menu svg,
+[data-chrome-theme="light"] .custom-indicators-popover-menu svg,
+[data-chrome-theme="light"] .custom-fav-indicators-popover-menu svg,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu svg {
+  color: #131722 !important;
+}
+
+/* Hover inside menus */
+[data-chrome-theme="light"] .custom-tool-popover-menu [style*="cursor: pointer"]:hover,
+[data-chrome-theme="light"] .custom-timeframe-dropdown-menu > div:hover,
+[data-chrome-theme="light"] .custom-charttype-dropdown-menu > div:hover,
+[data-chrome-theme="light"] .custom-theme-dropdown-menu > div:hover,
+[data-chrome-theme="light"] .custom-indicators-popover-menu > div > div:hover,
+[data-chrome-theme="light"] .custom-fav-indicators-popover-menu > div > div:hover,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div:hover,
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .list li:hover {
+  background-color: #f0f3fa !important;
+  color: #131722 !important;
+}
+
+/* Indicators search input */
+[data-chrome-theme="light"] .custom-indicators-popover-menu input {
+  background-color: #f0f3fa !important;
+  border: 1px solid #e0e3eb !important;
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .custom-indicators-popover-menu input::placeholder {
+  color: #787b86 !important;
+}
+
+/* Fav indicators header */
+[data-chrome-theme="light"] .custom-fav-indicators-popover-menu > div:first-child {
+  color: #787b86 !important;
+}
+
+/* Layout grid option items */
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div[data-layout-key] {
+  border: 1px solid #50535e !important;
+  background-color: transparent !important;
+}
+
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div[data-layout-key] .layout-cell {
+  border: 1px solid #50535e !important;
+  background-color: transparent !important;
+}
+
+/* Hover state on unselected layout option items */
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div[data-layout-key]:hover {
+  border-color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.08) !important;
+}
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div[data-layout-key]:hover .layout-cell {
+  border-color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.25) !important;
+}
+
+/* Selected layout option item in Light Theme */
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div[data-layout-key].selected,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="1"] > div[data-layout-key="1"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="2v"] > div[data-layout-key="2v"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="2h"] > div[data-layout-key="2h"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3v"] > div[data-layout-key="3v"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3h"] > div[data-layout-key="3h"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g"] > div[data-layout-key="3g"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g2"] > div[data-layout-key="3g2"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g3"] > div[data-layout-key="3g3"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g4"] > div[data-layout-key="3g4"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="4"] > div[data-layout-key="4"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="5"] > div[data-layout-key="5"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="6"] > div[data-layout-key="6"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="7"] > div[data-layout-key="7"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="8"] > div[data-layout-key="8"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="9"] > div[data-layout-key="9"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="10"] > div[data-layout-key="10"],
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="12"] > div[data-layout-key="12"] {
+  border-color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.15) !important;
+}
+
+[data-chrome-theme="light"] .custom-layout-dropdown-menu > div[data-layout-key].selected .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="1"] > div[data-layout-key="1"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="2v"] > div[data-layout-key="2v"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="2h"] > div[data-layout-key="2h"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3v"] > div[data-layout-key="3v"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3h"] > div[data-layout-key="3h"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g"] > div[data-layout-key="3g"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g2"] > div[data-layout-key="3g2"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g3"] > div[data-layout-key="3g3"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="3g4"] > div[data-layout-key="3g4"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="4"] > div[data-layout-key="4"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="5"] > div[data-layout-key="5"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="6"] > div[data-layout-key="6"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="7"] > div[data-layout-key="7"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="8"] > div[data-layout-key="8"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="9"] > div[data-layout-key="9"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="10"] > div[data-layout-key="10"] .layout-cell,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu[data-current-layout="12"] > div[data-layout-key="12"] .layout-cell {
+  border-color: #2962ff !important;
+  background-color: #2962ff !important;
+}
+
+/* Dark theme layout grid option items */
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu > div[data-layout-key] {
+  border: 1px solid #434651 !important;
+  background-color: transparent !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu > div[data-layout-key] .layout-cell {
+  border: 1px solid #868993 !important;
+  background-color: transparent !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu > div[data-layout-key]:hover {
+  border-color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.15) !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu > div[data-layout-key]:hover .layout-cell {
+  border-color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.4) !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu > div[data-layout-key].selected,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="1"] > div[data-layout-key="1"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="2v"] > div[data-layout-key="2v"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="2h"] > div[data-layout-key="2h"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3v"] > div[data-layout-key="3v"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3h"] > div[data-layout-key="3h"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g"] > div[data-layout-key="3g"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g2"] > div[data-layout-key="3g2"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g3"] > div[data-layout-key="3g3"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g4"] > div[data-layout-key="3g4"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="4"] > div[data-layout-key="4"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="5"] > div[data-layout-key="5"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="6"] > div[data-layout-key="6"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="7"] > div[data-layout-key="7"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="8"] > div[data-layout-key="8"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="9"] > div[data-layout-key="9"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="10"] > div[data-layout-key="10"],
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="12"] > div[data-layout-key="12"] {
+  border-color: #2962ff !important;
+  background-color: rgba(41, 98, 255, 0.15) !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu > div[data-layout-key].selected .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="1"] > div[data-layout-key="1"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="2v"] > div[data-layout-key="2v"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="2h"] > div[data-layout-key="2h"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3v"] > div[data-layout-key="3v"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3h"] > div[data-layout-key="3h"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g"] > div[data-layout-key="3g"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g2"] > div[data-layout-key="3g2"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g3"] > div[data-layout-key="3g3"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="3g4"] > div[data-layout-key="3g4"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="4"] > div[data-layout-key="4"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="5"] > div[data-layout-key="5"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="6"] > div[data-layout-key="6"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="7"] > div[data-layout-key="7"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="8"] > div[data-layout-key="8"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="9"] > div[data-layout-key="9"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="10"] > div[data-layout-key="10"] .layout-cell,
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu[data-current-layout="12"] > div[data-layout-key="12"] .layout-cell {
+  border-color: #2962ff !important;
+  background-color: #2962ff !important;
+}
+
+
+/* ── LAYERS & OBJECTS PANEL ── */
+[data-chrome-theme="light"] .custom-layers-dropdown-menu {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e3eb !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-chrome-theme="light"] .custom-layers-header {
+  background-color: #f7f9fd !important;
+  background: #f7f9fd !important;
+  border-bottom: 1px solid #e0e3eb !important;
+}
+[data-chrome-theme="light"] .custom-layers-header span,
+[data-chrome-theme="light"] .custom-layers-header svg {
+  color: #131722 !important;
+}
+
+[data-chrome-theme="light"] .custom-layers-list-container {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+[data-chrome-theme="light"] .custom-layer-item-row {
+  border-bottom-color: #f0f3fa !important;
+}
+[data-chrome-theme="light"] .custom-layer-item-row:hover {
+  background-color: #f0f3fa !important;
+}
+[data-chrome-theme="light"] .custom-layer-name-span {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .custom-layer-tool-icon svg {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .custom-layer-action-btn {
+  color: #5d606b !important;
+}
+[data-chrome-theme="light"] .custom-layer-action-btn:hover {
+  color: #131722 !important;
+  background-color: #ebedf2 !important;
+}
+/* Empty state */
+[data-chrome-theme="light"] .custom-layers-list-container > div[style*="text-align: center"] {
+  color: #787b86 !important;
+}
+[data-chrome-theme="light"] .custom-layers-list-container > div[style*="text-align: center"] svg {
+  stroke: #b2b5be !important;
+}
+[data-chrome-theme="light"] .custom-layers-list-container > div[style*="text-align: center"] > div {
+  color: #131722 !important;
+}
+
+
+/* ── SETTINGS MODAL ── */
+[data-chrome-theme="light"] .settings-modal-box {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e3eb !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15) !important;
+  color: #131722 !important;
+}
+
+/* Modal Header */
+[data-chrome-theme="light"] .settings-modal-box > div:first-child {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e0e3eb !important;
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:first-child span {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:first-child button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: #787b86 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:first-child button:hover {
+  background: rgba(242, 54, 69, 0.1) !important;
+  border-color: rgba(242, 54, 69, 0.3) !important;
+  color: #f23645 !important;
+}
+
+/* Modal Sidebar (Tabs Panel) */
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child {
+  background-color: #f0f3fa !important;
+  border-right: 1px solid #e0e3eb !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button {
+  color: #5d606b !important;
+  background: transparent !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button svg {
+  color: #787b86 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button:hover {
+  background-color: #e4e8f0 !important;
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button:hover svg {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="2962ff"],
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="#2962ff"],
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="rgb(41, 98, 255)"],
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="41, 98, 255"] {
+  color: #2962ff !important;
+  background-color: #ffffff !important;
+  border-left: 3px solid #2962ff !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="2962ff"] svg,
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="#2962ff"] svg,
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="rgb(41, 98, 255)"] svg,
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:first-child button[style*="41, 98, 255"] svg {
+  color: #2962ff !important;
+}
+
+/* Modal Content Pane */
+[data-chrome-theme="light"] .settings-modal-box > div:nth-child(2) > div:nth-child(2) {
+  background-color: #ffffff !important;
+  color: #131722 !important;
+}
+
+/* Section Headings and Labels */
+[data-chrome-theme="light"] .settings-modal-box div[style*="uppercase"] {
+  color: #787b86 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box span {
+  color: inherit;
+}
+[data-chrome-theme="light"] .settings-modal-box span[style*="#d1d4dc"],
+[data-chrome-theme="light"] .settings-modal-box span[style*="rgb(209, 212, 220)"] {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box span[style*="#868993"],
+[data-chrome-theme="light"] .settings-modal-box span[style*="#787b86"],
+[data-chrome-theme="light"] .settings-modal-box span[style*="#6a6d78"] {
+  color: #787b86 !important;
+}
+
+/* Section Borders */
+[data-chrome-theme="light"] .settings-modal-box div[style*="border-top"],
+[data-chrome-theme="light"] .settings-modal-box div[style*="borderTop"] {
+  border-top-color: #e0e3eb !important;
+}
+[data-chrome-theme="light"] .settings-modal-box div[style*="border-bottom"],
+[data-chrome-theme="light"] .settings-modal-box div[style*="borderBottom"] {
+  border-bottom-color: #e0e3eb !important;
+}
+
+/* Number / Text Inputs */
+[data-chrome-theme="light"] .settings-modal-box input[type="text"],
+[data-chrome-theme="light"] .settings-modal-box input[type="number"],
+[data-chrome-theme="light"] .settings-modal-box .custom-spinner-input {
+  background-color: #ffffff !important;
+  border: 1px solid #d1d4dc !important;
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box input[type="text"]:focus,
+[data-chrome-theme="light"] .settings-modal-box input[type="number"]:focus,
+[data-chrome-theme="light"] .settings-modal-box .custom-spinner-input:focus {
+  border-color: #2962ff !important;
+}
+
+/* Number Spinner Arrow Buttons */
+[data-chrome-theme="light"] .settings-modal-box .custom-spinner-input ~ div button {
+  color: #787b86 !important;
+}
+[data-chrome-theme="light"] .settings-modal-box .custom-spinner-input ~ div button:hover {
+  color: #131722 !important;
+}
+
+/* Custom Checkbox */
+[data-chrome-theme="light"] .settings-modal-box label > div[style*="border"] {
+  border-color: #b2b5be !important;
+}
+[data-chrome-theme="light"] .settings-modal-box label > div[style*="border-box"] svg path {
+  stroke: #ffffff !important;
+}
+
+/* Diagnostic Logs Textarea */
+[data-chrome-theme="light"] .settings-modal-box textarea {
+  background-color: #f8f9fd !important;
+  color: #131722 !important;
+  border-color: #e0e3eb !important;
+}
+
+/* Modal Footer Bar */
+[data-chrome-theme="light"] .settings-modal-box > div:last-child {
+  background-color: #f0f3fa !important;
+  border-top: 1px solid #e0e3eb !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button {
+  background-color: #ffffff !important;
+  border: 1px solid #d1d4dc !important;
+  color: #5d606b !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button:hover {
+  background-color: #ebedf2 !important;
+  color: #131722 !important;
+  border-color: #b2b5be !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="2962ff"],
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="#2962ff"],
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="rgb(41, 98, 255)"],
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="41, 98, 255"],
+[data-chrome-theme="light"] .settings-modal-box > div:last-child div:last-child button:last-child {
+  background-color: #2962ff !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="2962ff"]:hover,
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="#2962ff"]:hover,
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="rgb(41, 98, 255)"]:hover,
+[data-chrome-theme="light"] .settings-modal-box > div:last-child button[style*="41, 98, 255"]:hover,
+[data-chrome-theme="light"] .settings-modal-box > div:last-child div:last-child button:last-child:hover {
+  background-color: #1a56ff !important;
+  color: #ffffff !important;
+}
+
+
+/* ── TICKER-PEN NATIVE DROPDOWNS (period lists, etc.) ── */
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .list {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e3eb !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,.08) !important;
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .list li {
+  color: #131722 !important;
+}
+[data-chrome-theme="light"] .ticker-pen-pro-period-bar .list li:hover {
+  background-color: #f0f3fa !important;
+}
+
+.ticker-pen-pro-period-bar .menu-container {
+  display: none !important;
+}
+
+.ticker-pen-pro-drawing-bar {
+  display: none !important;
+}
+
+/* Prevent timeframe lists, layout selectors, and select items from clipping */
+.ticker-pen-pro-period-bar .list,
+.ticker-pen-pro-period-bar .dropdown,
+.custom-layouts-dropdown {
+  z-index: 100050 !important;
+}
+
+/* Dark theme for dropdown lists and popovers from reparented toolbars */
+:not([data-chrome-theme="light"]) .ticker-pen-pro-period-bar .list {
+  background-color: #1c1c1f !important;
+  border: 1px solid #292929 !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,.3) !important;
+  color: #f8f8f8 !important;
+}
+:not([data-chrome-theme="light"]) .ticker-pen-pro-period-bar .list li {
+  color: #f8f8f8 !important;
+}
+:not([data-chrome-theme="light"]) .ticker-pen-pro-period-bar .list li:hover {
+  background-color: rgba(22, 119, 255, .15) !important;
+}
+.ticker-pen-pro-drawing-bar .item .list {
+  background-color: #1c1c1f !important;
+  border: 1px solid #292929 !important;
+  color: #929AA5 !important;
+}
+.ticker-pen-pro-drawing-bar .item .list li:hover {
+  background-color: rgba(22, 119, 255, .15) !important;
+}
+
+/* Adjust cell boundaries when the custom drawing bar is toggled */
+.layout-container.custom-sidebar-open .grid-inner-container {
+  left: 52px !important;
+  right: 0 !important;
+  top: 42px !important;
+  width: calc(100% - 52px) !important;
+  height: calc(100% - 42px) !important;
+  margin-left: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  transition: left 0.2s ease, width 0.2s ease;
+}
+
+.layout-container.custom-sidebar-collapsed .grid-inner-container {
+  left: 0 !important;
+  right: 0 !important;
+  top: 42px !important;
+  width: 100% !important;
+  height: calc(100% - 42px) !important;
+  margin-left: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-sizing: border-box !important;
+  transition: left 0.2s ease, width 0.2s ease;
+}
+
+/* Ensure Ticker Pen widget layouts adapt to the fixed margins */
+.ticker-pen-pro-widget {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.ticker-pen-pro-content {
+  height: 100% !important;
+}
+
+/* Hide background watermark */
+.ticker-pen-pro-watermark {
+  display: none !important;
+}
+
+/* Dropdown popover animations for top bar controls */
+.custom-timeframe-dropdown-menu,
+.custom-charttype-dropdown-menu,
+.custom-layers-dropdown-menu,
+.custom-indicators-popover-menu,
+.custom-fav-indicators-popover-menu {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: scale(0.95) !important;
+  transform-origin: top left !important;
+  transition: opacity 0.15s cubic-bezier(0, 0, 0.2, 1), transform 0.15s cubic-bezier(0, 0, 0.2, 1), visibility 0.15s !important;
+  pointer-events: none !important;
+  display: block !important;
+}
+
+.custom-layout-dropdown-menu {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: scale(0.95) !important;
+  transform-origin: top right !important;
+  transition: opacity 0.15s cubic-bezier(0, 0, 0.2, 1), transform 0.15s cubic-bezier(0, 0, 0.2, 1), visibility 0.15s !important;
+  pointer-events: none !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
+  padding: 8px !important;
+  box-sizing: border-box !important;
+  width: max-content !important;
+}
+
+.custom-timeframe-dropdown-menu.show-menu,
+.custom-charttype-dropdown-menu.show-menu,
+.custom-layers-dropdown-menu.show-menu,
+.custom-indicators-popover-menu.show-menu,
+.custom-fav-indicators-popover-menu.show-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) !important;
+  pointer-events: auto !important;
+}
+
+.custom-layout-dropdown-menu.show-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) !important;
+  pointer-events: auto !important;
+  display: grid !important;
+}
+
+/* Ensure 100% full background opacity and highest layer stack for layout and layer panels */
+.custom-layout-dropdown-menu,
+.custom-layers-dropdown-menu {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  z-index: 9999999 !important;
+  position: absolute !important;
+}
+
+/* Dark defaults (only when NOT in light theme) */
+html:not([data-chrome-theme="light"]) .custom-layout-dropdown-menu,
+html:not([data-chrome-theme="light"]) .custom-layers-dropdown-menu {
+  background: #1e222d !important;
+  background-color: #1e222d !important;
+  border: 1px solid #2a2e39 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Light defaults for layout menu */
+html[data-chrome-theme="light"] .custom-layout-dropdown-menu,
+[data-chrome-theme="light"] .custom-layout-dropdown-menu {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e0e3eb !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Layer panel item hover and action buttons without JS flickering */
+.custom-layer-item-row {
+  box-sizing: border-box !important;
+  border-left: 3px solid transparent !important;
+  transition: background-color 0.1s ease, border-color 0.1s ease !important;
+  cursor: grab !important;
+}
+.custom-layer-item-row:active {
+  cursor: grabbing !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layer-item-row:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+.custom-layer-tool-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #787b86;
+  transition: color 0.1s ease !important;
+  flex-shrink: 0;
+}
+html:not([data-chrome-theme="light"]) .custom-layer-item-row:hover .custom-layer-tool-icon {
+  color: #d1d4dc;
+}
+.custom-layer-action-btn {
+  transition: color 0.1s ease, background-color 0.1s ease !important;
+}
+html:not([data-chrome-theme="light"]) .custom-layer-action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+.custom-layer-del-btn:hover {
+  color: #f23645 !important;
+  background-color: rgba(242, 54, 69, 0.18) !important;
+}
+.custom-layer-item-row.selected-layer-row {
+  background-color: rgba(41, 98, 255, 0.18) !important;
+  border-left-color: #2962ff !important;
+}
+
+/* Dropdown arrow rotation rules */
+.custom-timeframes-arrow-btn svg,
+.custom-charttype-arrow-btn svg,
+.custom-layout-arrow-btn svg,
+.custom-indicators-arrow-btn svg {
+  transform: rotate(0deg) !important;
+  transition: transform 0.15s ease !important;
+}
+
+.custom-timeframes-arrow-btn.active-arrow svg,
+.custom-charttype-arrow-btn.active-arrow svg,
+.custom-layout-arrow-btn.active-arrow svg,
+.custom-indicators-arrow-btn.active-arrow svg {
+  transform: rotate(180deg) !important;
+}
+
+/* Indicator Legend Row Hover Toolbar */
+.custom-indicator-actions-toolbar {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.15s ease-in-out !important;
+}
+
+.custom-indicator-legend-row:hover .custom-indicator-actions-toolbar {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ─── TradingView EP, SL, TP Position Indication Styles ─── */
+.tv-position-overlay-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+  user-select: none;
+}
+
+.tv-position-badge {
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45));
+}
+
+.tv-badge-btn {
+  user-select: none;
+  touch-action: none;
+}
+
+.tv-badge-btn:hover {
+  filter: brightness(1.15);
+}
+
+.tv-badge-btn:active {
+  transform: scale(0.96);
+}
+
+.tv-btn-reverse {
+  background-color: #1e222d !important;
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.tv-btn-reverse:hover,
+.tv-btn-reverse:active {
+  background-color: #1e222d !important;
+  box-shadow: inset 0 0 0 100px rgba(242, 54, 69, 0.22), 0 0 8px rgba(242, 54, 69, 0.45) !important;
+}
+
+.tv-btn-dotted-tp {
+  background-color: #1e222d !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tv-btn-dotted-tp:hover,
+.tv-btn-dotted-tp:active {
+  background-color: #1e222d !important;
+  border-style: solid !important;
+  border-color: #089981 !important;
+  box-shadow: inset 0 0 0 100px rgba(8, 153, 129, 0.22), 0 0 8px rgba(8, 153, 129, 0.45) !important;
+}
+
+.tv-btn-dotted-sl {
+  background-color: #1e222d !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tv-btn-dotted-sl:hover,
+.tv-btn-dotted-sl:active {
+  background-color: #1e222d !important;
+  border-style: solid !important;
+  border-color: #ff9800 !important;
+  box-shadow: inset 0 0 0 100px rgba(255, 152, 0, 0.22), 0 0 8px rgba(255, 152, 0, 0.45) !important;
+}
+
+.tv-sl-badge {
+  background-color: #1e222d !important;
+  transition: box-shadow 0.15s ease;
+}
+
+.tv-sl-badge:hover,
+.tv-sl-badge:active {
+  background-color: #1e222d !important;
+  box-shadow: inset 0 0 0 100px rgba(255, 152, 0, 0.15), 0 0 10px rgba(255, 152, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
+.tv-tp-badge {
+  background-color: #1e222d !important;
+  transition: box-shadow 0.15s ease;
+}
+
+.tv-tp-badge:hover,
+.tv-tp-badge:active {
+  background-color: #1e222d !important;
+  box-shadow: inset 0 0 0 100px rgba(8, 153, 129, 0.15), 0 0 10px rgba(8, 153, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
+.tv-sl-badge:active,
+.tv-tp-badge:active {
+  cursor: grabbing !important;
+}
+
+.tv-pill-close-btn:hover {
+  background: rgba(242, 54, 69, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.tv-position-tooltip {
+  animation: tvTooltipFade 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+@keyframes tvTooltipFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.tv-execution-marker {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+  user-select: none;
+}
+
+.tv-exec-arrow {
+  box-sizing: border-box;
+}
+
+.tv-exec-arrow:hover {
+  cursor: pointer;
+}
+
+.tv-execution-tooltip {
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+}
+
+/* ==========================================================================
+   Modern Circular Chart Loading Indicator (Replaces Three Bouncing Dots)
+   ========================================================================== */
+.ticker-pen-pro-loading {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 50 !important;
+  background: rgba(14, 18, 26, 0.76) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease !important;
+}
+
+/* Hide original 3 bouncing dots */
+.ticker-pen-pro-loading .circle1,
+.ticker-pen-pro-loading .circle2,
+.ticker-pen-pro-loading .circle3 {
+  display: none !important;
+}
+
+/* Modern Glowing Circular Ring Spinner */
+.ticker-pen-pro-loading::before {
+  content: '' !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 50% !important;
+  border: 3.5px solid rgba(41, 98, 255, 0.15) !important;
+  border-top-color: #2962ff !important;
+  border-right-color: #00e5ff !important;
+  animation: chart-spinner-rotate 0.85s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+  box-shadow: 0 0 20px rgba(41, 98, 255, 0.35) !important;
+}
+
+.ticker-pen-pro-loading::after {
+  content: 'Loading chart data...' !important;
+  display: block !important;
+  margin-top: 14px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  color: #94a3b8 !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+}
+
+@keyframes chart-spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Light theme adaptations for loading indicator */
+[data-chrome-theme="light"] .ticker-pen-pro-loading,
+.ticker-pen-pro[data-theme="light"] .ticker-pen-pro-loading {
+  background: rgba(255, 255, 255, 0.82) !important;
+}
+
+[data-chrome-theme="light"] .ticker-pen-pro-loading::before,
+.ticker-pen-pro[data-theme="light"] .ticker-pen-pro-loading::before {
+  border-color: rgba(41, 98, 255, 0.15) !important;
+  border-top-color: #2962ff !important;
+  border-right-color: #0091ea !important;
+  box-shadow: 0 0 16px rgba(41, 98, 255, 0.2) !important;
+}
+
+[data-chrome-theme="light"] .ticker-pen-pro-loading::after,
+.ticker-pen-pro[data-theme="light"] .ticker-pen-pro-loading::after {
+  color: #475569 !important;
+  text-shadow: none !important;
+}
+
+/* ==========================================================================
+   Chart Network Error Overlay & Reconnect Screen
+   ========================================================================== */
+.chart-network-error-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 48;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 14, 20, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: chartErrorFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 24px;
+}
+
+[data-chrome-theme="light"] .chart-network-error-overlay {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+@keyframes chartErrorFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chart-network-error-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  padding: 28px 24px;
+  background: #141722;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 24px rgba(239, 68, 68, 0.12);
+}
+
+[data-chrome-theme="light"] .chart-network-error-card {
+  background: #ffffff;
+  border-color: rgba(239, 68, 68, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 0 20px rgba(239, 68, 68, 0.08);
+}
+
+.chart-network-error-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  margin-bottom: 18px;
+}
+
+.chart-network-error-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.chart-network-error-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(239, 68, 68, 0.35);
+  animation: chartPulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes chartPulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.15;
+  }
+}
+
+.chart-network-error-title {
+  margin: 0 0 8px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+[data-chrome-theme="light"] .chart-network-error-title {
+  color: #0f172a;
+}
+
+.chart-network-error-desc {
+  margin: 0 0 20px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #94a3b8;
+}
+
+[data-chrome-theme="light"] .chart-network-error-desc {
+  color: #64748b;
+}
+
+.chart-network-error-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.chart-network-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+.chart-network-retry-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+}
+
+.chart-network-retry-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.chart-network-retry-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.chart-network-btn-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: chart-spinner-rotate 0.75s linear infinite;
+}
+
+.chart-network-status-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #64748b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+}
+
+.chart-network-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #f59e0b;
+  animation: chartPulseGlow 1.8s infinite;
+}
+

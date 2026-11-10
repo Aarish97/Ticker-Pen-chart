@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Antigravity Quant Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+    <script>
+      window.onerror = function (message, source, lineno, colno, error) {
+        var div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '10px';
+        div.style.left = '10px';
+        div.style.right = '10px';
+        div.style.bottom = '10px';
+        div.style.background = 'rgba(28, 20, 20, 0.95)';
+        div.style.color = '#ff6b6b';
+        div.style.padding = '24px';
+        div.style.fontFamily = 'monospace';
+        div.style.fontSize = '14px';
+        div.style.lineHeight = '1.5';
+        div.style.zIndex = '9999999';
+        div.style.overflow = 'auto';
+        div.style.borderRadius = '8px';
+        div.style.border = '2px solid #ff4b4b';
+        div.innerHTML = '<h2>🚨 Client-side Runtime Error</h2>' +
+          '<p><strong>Message:</strong> ' + message + '</p>' +
+          '<p><strong>Source:</strong> ' + source + ' (Line: ' + lineno + ', Col: ' + colno + ')</p>' +
+          '<p><strong>Stack trace:</strong></p>' +
+          '<pre style="background: rgba(0,0,0,0.5); padding: 12px; border-radius: 4px; color: #eee; overflow-x: auto;">' + (error && error.stack ? error.stack : 'N/A') + '</pre>';
+        document.body.appendChild(div);
+        return false;
+      };
+      window.onunhandledrejection = function (event) {
+        var div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '10px';
+        div.style.left = '10px';
+        div.style.right = '10px';
+        div.style.bottom = '10px';
+        div.style.background = 'rgba(28, 20, 20, 0.95)';
+        div.style.color = '#ffb13b';
+        div.style.padding = '24px';
+        div.style.fontFamily = 'monospace';
+        div.style.fontSize = '14px';
+        div.style.lineHeight = '1.5';
+        div.style.zIndex = '9999999';
+        div.style.overflow = 'auto';
+        div.style.borderRadius = '8px';
+        div.style.border = '2px solid #ffb13b';
+        div.innerHTML = '<h2>⚠️ Unhandled Promise Rejection</h2>' +
+          '<p><strong>Reason:</strong> ' + (event.reason ? (event.reason.message || event.reason) : 'N/A') + '</p>' +
+          '<p><strong>Stack trace:</strong></p>' +
+          '<pre style="background: rgba(0,0,0,0.5); padding: 12px; border-radius: 4px; color: #eee; overflow-x: auto;">' + (event.reason && event.reason.stack ? event.reason.stack : 'N/A') + '</pre>';
+        document.body.appendChild(div);
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

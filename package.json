@@ -1,0 +1,52 @@
+{
+  "name": "trading-chart",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/trading-chart.umd.js",
+  "module": "./dist/trading-chart.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/trading-chart.es.js",
+      "require": "./dist/trading-chart.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/trading-chart.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "dev": "node scripts/patch-ticker-pen.cjs && vite --force",
+    "build": "node scripts/patch-ticker-pen.cjs && node -e \"require('child_process').execSync('npx vite build', {stdio: 'inherit', env: {...process.env, NODE_OPTIONS: '--max-old-space-size=4096'}})\" && npm run build:lib",
+    "build:lib": "node scripts/patch-ticker-pen.cjs && node -e \"require('child_process').execSync('npx vite build', {stdio: 'inherit', env: {...process.env, BUILD_MODE: 'lib', NODE_OPTIONS: '--max-old-space-size=4096'}})\" && node scripts/generate-dts.cjs",
+    "build:types": "node scripts/generate-dts.cjs",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "postinstall": "node scripts/patch-ticker-pen.cjs"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.23.0",
+    "trading-signals": "^8.0.0"
+  },
+  "devDependencies": {
+    "@tickerpen/pro": "file:./node_modules/@tickerpen/pro",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "lightweight-charts": "^5.2.0",
+    "oxlint": "^1.71.0",
+    "puppeteer": "^25.3.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tickerpen": "file:./node_modules/tickerpen",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  }
+}
